@@ -2,7 +2,11 @@ import React from "react";
 import PropTypes from "prop-types";
 import EditIcon from "grommet/components/icons/base/Edit";
 
+import PokeDisplay from "./PokeDisplay";
+
+// Grommet
 import Button from "grommet/components/Button";
+import Article from "grommet/components/Article";
 
 //const CmpntStateless = props => <div>{props.children}</div>;
 
@@ -42,9 +46,12 @@ class App extends React.Component {
     /* code */
 
     return (
-      <div>
+      <Article>
         <Button icon={<EditIcon />} label="Label" />
-      </div>
+        <PokeDisplay propColor="neutral-1-a" />
+        <PokeDisplay propColor="neutral-4-a" />
+        <PokeDisplay propColor="neutral-1-a" />
+      </Article>
     );
   }
 }
