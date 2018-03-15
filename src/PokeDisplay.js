@@ -1,12 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import Article from "grommet/components/Article";
+import Box from "grommet/components/Box";
 import Section from "grommet/components/Section";
 import Headline from "grommet/components/Headline";
 import Spinning from "grommet/components/icons/Spinning";
+import Status from "grommet/components/icons/Status";
 
 import { headers, buildQuery, processStatus } from "grommet/utils/Rest";
+
+import Pokemonsters from "../data/monsters.js";
 
 //const CmpntStateless = props => <div>{props.children}</div>;
 
@@ -33,12 +36,23 @@ class PokeDisplay extends React.Component {
 
     //this.callbackFunction = this.callbackFunction.bind(this);
     this.getData = this.getData.bind(this);
+    this.getData2 = this.getData2.bind(this);
 
     this.state = {
       stateLoading: true,
       result: undefined,
       error: undefined
     };
+  }
+
+  getData3() {
+    let error = { description: "Can't find data" };
+    this.setState({ error: error, stateLoading: false });
+  }
+  getData2() {
+    let result = Pokemonsters.pikachu;
+    console.log(Pokemonsters.pikachu.name);
+    this.setState({ result: result, stateLoading: false });
   }
 
   getData(filters) {
@@ -59,10 +73,25 @@ class PokeDisplay extends React.Component {
 
   componentDidMount() {
     //this.getData(null);
+    this.getData2();
   }
 
   render() {
     /* code */
+    const loadingComponent = this.state.stateLoading ? (
+      <Spinning size="large" />
+    ) : null;
+
+    const dataComponent = this.state.result ? (
+      <Headline margin="none">{this.state.result.name}</Headline>
+    ) : null;
+
+    const errorComponent = this.state.error ? (
+      <Box direction="row" align="center" responsive={false}>
+        <Status value="critical" size="large" />
+        <Headline margin="none">{this.state.error.description}</Headline>
+      </Box>
+    ) : null;
 
     return (
       <Section
@@ -72,14 +101,9 @@ class PokeDisplay extends React.Component {
         full={true}
         colorIndex={this.props.propColor}
       >
-        {this.state.stateLoading ? (
-          <div>
-            <Spinning size="huge" />
-            <Headline margin="none">Text</Headline>
-          </div>
-        ) : (
-          <Headline margin="none">{this.state.result.name}</Headline>
-        )}
+        {loadingComponent}
+        {dataComponent}
+        {errorComponent}
       </Section>
     );
   }
