@@ -1,5 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
+import EditIcon from "grommet/components/icons/base/Edit";
+
+import Button from "grommet/components/Button";
 
 //const CmpntStateless = props => <div>{props.children}</div>;
 
@@ -38,7 +41,11 @@ class App extends React.Component {
   render() {
     /* code */
 
-    return <div />;
+    return (
+      <div>
+        <Button icon={<EditIcon />} label="Label" />
+      </div>
+    );
   }
 }
 
