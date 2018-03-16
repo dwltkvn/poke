@@ -8,6 +8,8 @@ import Spinning from "grommet/components/icons/Spinning";
 import Status from "grommet/components/icons/Status";
 
 import Meter from "grommet/components/Meter";
+import Image from "grommet/components/Image";
+import Carousel from "grommet/components/Carousel";
 import Value from "grommet/components/Value";
 //import Legend from "grommet/components/Legend";
 
@@ -101,13 +103,26 @@ class PokeDisplay extends React.Component {
       });
     }
 
+    const imagesList = this.state.result
+      ? Object.keys(this.state.result.sprites).map((key, i) => (
+          <Image src={this.state.result.sprites[key]} key={i} size="small" />
+        ))
+      : null;
+
     // prepare data component
     const dataComponent = this.state.result ? (
-      <Box>
+      <Box align="center" direction="column">
         <Headline margin="none">{this.state.result.name}</Headline>
-        <Box align="center" direction="row">
-          <Meter series={dataSeries} />
-          {/*<Legend series={dataSeries} total={false} />*/}
+        <Box full="horizontal" justify="between" direction="row">
+          <Box separator="all" full="horizontal" />
+          <Box separator="all" full="horizontal" />
+          <Box full="horizontal" align="center" justify="center">
+            <Carousel>{imagesList}</Carousel>
+          </Box>
+          <Box full="horizontal" align="center" justify="center">
+            <Meter series={dataSeries} />
+          </Box>
+          <Box separator="all" full="horizontal" />
         </Box>
       </Box>
     ) : null;
