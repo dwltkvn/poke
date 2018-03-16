@@ -7,6 +7,10 @@ import Headline from "grommet/components/Headline";
 import Spinning from "grommet/components/icons/Spinning";
 import Status from "grommet/components/icons/Status";
 
+import Meter from "grommet/components/Meter";
+import Value from "grommet/components/Value";
+//import Legend from "grommet/components/Legend";
+
 import { headers, buildQuery, processStatus } from "grommet/utils/Rest";
 
 import Pokemonsters from "../data/monsters.js";
@@ -78,12 +82,34 @@ class PokeDisplay extends React.Component {
 
   render() {
     /* code */
+
     const loadingComponent = this.state.stateLoading ? (
       <Spinning size="large" />
     ) : null;
 
+    // compute stat graph bar series
+    let dataSeries = [];
+    if (this.state.result) {
+      this.state.result.stats.forEach((e, i) => {
+        let res = {};
+
+        res.label = e.stat.name;
+        res.value = e.base_stat;
+        res.colorIndex = "graph-" + i;
+
+        dataSeries.push(res);
+      });
+    }
+
+    // prepare data component
     const dataComponent = this.state.result ? (
-      <Headline margin="none">{this.state.result.name}</Headline>
+      <Box>
+        <Headline margin="none">{this.state.result.name}</Headline>
+        <Box align="center" direction="row">
+          <Meter series={dataSeries} />
+          {/*<Legend series={dataSeries} total={false} />*/}
+        </Box>
+      </Box>
     ) : null;
 
     const errorComponent = this.state.error ? (
